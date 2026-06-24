@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Long Read — Tanren Running</title>
+<meta name="description" content="Training knowledge for serious endurance athletes. Running, Hyrox and triathlon coaching insights from Tanren Running Singapore.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+
+/* ── BLOG HERO ── */
+.blog-hero {
+  background: var(--near-black);
+  padding: 180px 60px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.blog-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(232,105,10,0.06) 0%, transparent 55%);
+}
+.blog-hero-inner { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
+.blog-hero h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(44px, 7vw, 80px);
+  color: var(--white);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 0.95;
+  margin-bottom: 20px;
+}
+.blog-hero p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* ── CATEGORY FILTER ── */
+.blog-filter {
+  background: var(--cream);
+  padding: 40px 60px 0;
+  border-bottom: 1px solid var(--border);
+}
+.blog-filter-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+.filter-btn {
+  padding: 16px 28px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.filter-btn:hover { color: var(--dark); }
+.filter-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ── BLOG GRID ── */
+.blog-grid-section {
+  background: var(--cream);
+  padding: 80px 60px 120px;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* Featured post (spans full width) */
+.blog-card.featured {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: var(--dark);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.blog-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s;
+}
+.blog-card:not(.featured):hover { border-color: var(--orange); }
+
+/* Card image zone */
+.blog-card-image {
+  background: var(--dark);
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.blog-card.featured .blog-card-image {
+  aspect-ratio: auto;
+  min-height: 340px;
+}
+.blog-card-image-placeholder {
+  text-align: center;
+  color: rgba(255,255,255,0.15);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+/* Decorative gradient overlay on image */
+.blog-card-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(232,105,10,0.06) 0%, transparent 60%);
+}
+
+/* Card content */
+.blog-card-content {
+  padding: 28px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.blog-card.featured .blog-card-content {
+  padding: 48px 52px;
+  justify-content: center;
+}
+.blog-card-category {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--orange);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+.blog-card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--dark);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  text-decoration: none;
+  display: block;
+  transition: color 0.2s;
+}
+.blog-card.featured .blog-card-title {
+  font-size: 28px;
+  color: var(--white);
+}
+.blog-card-title:hover { color: var(--orange); }
+.blog-card.featured .blog-card-title:hover { color: var(--orange); }
+.blog-card-excerpt {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--muted);
+  font-weight: 300;
+  flex: 1;
+  margin-bottom: 20px;
+}
+.blog-card.featured .blog-card-excerpt { color: rgba(255,255,255,0.5); }
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.blog-card.featured .blog-card-meta { border-top-color: rgba(255,255,255,0.1); }
+.blog-card-date {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.blog-card.featured .blog-card-date { color: rgba(255,255,255,0.35); }
+.blog-card-read {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.blog-card-link {
+  font-size: 13px;
+  color: var(--orange);
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.2s;
+}
+.blog-card-link:hover { gap: 10px; }
+
+/* ── NEWSLETTER STRIP ── */
+.newsletter {
+  background: var(--dark);
+  padding: 80px 60px;
+  text-align: center;
+}
+.newsletter-inner { max-width: 560px; margin: 0 auto; }
+.newsletter h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--white);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.newsletter p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 300;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+.newsletter-form {
+  display: flex;
+  gap: 0;
+  max-width: 440px;
+  margin: 0 auto;
+}
+.newsletter-form input {
+  flex: 1;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-right: none;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.newsletter-form input::placeholder { color: rgba(255,255,255,0.3); }
+.newsletter-form input:focus { border-color: var(--orange); }
+.newsletter-form button {
+  padding: 16px 28px;
+  background: var(--orange);
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.newsletter-form button:hover { background: var(--orange-hover); }
+.newsletter-note {
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 16px;
+  letter-spacing: 1px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .blog-hero { padding: 140px 24px 80px; }
+  .blog-filter { padding: 32px 24px 0; }
+  .blog-grid-section { padding: 60px 24px 80px; }
+  .blog-grid { grid-template-columns: 1fr; gap: 24px; }
+  .blog-card.featured { grid-template-columns: 1fr; }
+  .blog-card.featured .blog-card-image { min-height: 220px; }
+  .blog-card.featured .blog-card-content { padding: 32px 28px; }
+  .newsletter { padding: 60px 24px; }
+  .newsletter-form { flex-direction: column; }
+  .newsletter-form input { border-right: 1px solid rgba(255,255,255,0.15); border-bottom: none; }
+  .newsletter-form button { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="navbar" class="solid">
+  <a href="index.html" class="nav-logo">TANREN<span>Running</span></a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="coaching.html">Coaching</a></li>
+    <li><a href="philosophy.html">Philosophy</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="contact.html" class="nav-cta">Apply Now</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="coaching.html">Coaching</a>
+  <a href="philosophy.html">Philosophy</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Apply Now</a>
+</div>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <div class="blog-hero-inner">
+    <h1>The Long Read</h1>
+    <p>Training knowledge for serious endurance athletes.</p>
+  </div>
+</section>
+
+<!-- CATEGORY FILTER -->
+<div class="blog-filter">
+  <div class="blog-filter-inner">
+    <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
+    <button class="filter-btn" onclick="filterPosts('training', this)">Training</button>
+    <button class="filter-btn" onclick="filterPosts('racing', this)">Racing</button>
+    <button class="filter-btn" onclick="filterPosts('philosophy', this)">Philosophy</button>
+    <button class="filter-btn" onclick="filterPosts('singapore', this)">Singapore Running</button>
+    <button class="filter-btn" onclick="filterPosts('hyrox', this)">Hyrox</button>
+  </div>
+</div>
+
+<!-- BLOG GRID -->
+<section class="blog-grid-section">
+  <div class="blog-grid" id="blog-grid">
+
+    <!-- FEATURED POST -->
+    <article class="blog-card featured" data-category="training">
+      <div class="blog-card-image">
+        <div class="blog-card-image-placeholder">Post image</div>
+      </div>
+      <div class="blog-card-content">
+        <span class="blog-card-category">Training</span>
+        <a href="blog-post.html" class="blog-card-title">Why Singapore Endurance Athletes Stop Improving (And What to Do About It)</a>
+        <p class="blog-card-excerpt">Most recreational athletes in Singapore train consistently for 12–18 months before hitting a plateau they cannot explain. The training volume is there. The commitment is there. The results stop coming. Here is what is actually happening and how to break through it.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-date">March 2025</span>
+          <a href="blog-post.html" class="blog-card-link">Read More →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 2 -->
+    <article class="blog-card" data-category="training singapore">
+      <div class="blog-card-image">
+        <div class="blog-card-image-placeholder">Post image</div>
+      </div>
+      <div class="blog-card-content">
+        <span class="blog-card-category">Training · Singapore</span>
+        <a href="blog-post.html" class="blog-card-title">Training in Singapore Heat: What Most Programmes Get Wrong</a>
+        <p class="blog-card-excerpt">Generic Western marathon plans assume 15°C race conditions. Singapore runners face a fundamentally different physiological challenge. Here is how to train for it properly.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-date">February 2025</span>
+          <a href="blog-post.html" class="blog-card-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 3 -->
+    <article class="blog-card" data-category="racing">
+      <div class="blog-card-image">
+        <div class="blog-card-image-placeholder">Post image</div>
+      </div>
+      <div class="blog-card-content">
+        <span class="blog-card-category">Racing</span>
+        <a href="blog-post.html" class="blog-card-title">How to Break 4 Hours in the Marathon: A Structured Approach</a>
+        <p class="blog-card-excerpt">What weekly mileage, long run structure, workout types and timeline does a 4:30 runner actually need to hit sub-4? A specific, honest breakdown.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-date">January 2025</span>
+          <a href="blog-post.html" class="blog-card-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 4 -->
+    <article class="blog-card" data-category="hyrox training">
+      <div class="blog-card-image">
+        <div class="blog-card-image-placeholder">Post image</div>
+      </div>
+      <div class="blog-card-content">
+        <span class="blog-card-category">Hyrox · Training</span>
+        <a href="blog-post.html" class="blog-card-title">Why Your Hyrox Run Splits Are Costing You More Than You Think</a>
+        <p class="blog-card-excerpt">The average Hyrox competitor can gain 3–6 minutes simply by structuring their running training. Most never do. Here is what structured run training looks like for Hyrox.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-date">December 2024</span>
+          <a href="blog-post.html" class="blog-card-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 5 -->
+    <article class="blog-card" data-category="philosophy">
+      <div class="blog-card-image">
+        <div class="blog-card-image-placeholder">Post image</div>
+      </div>
+      <div class="blog-card-content">
+        <span class="blog-card-category">Philosophy</span>
+        <a href="blog-post.html" class="blog-card-title">Why Consistent Easy Training Beats Hard Sessions</a>
+        <p class="blog-card-excerpt">The polarised training paradox: running slower in training makes you faster on race day. The physiology behind why most recreational athletes are training in the wrong zone most of the time.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-date">November 2024</span>
+          <a href="blog-post.html" class="blog-card-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- POST 6 -->
+    <article class="blog-card" data-category="racing singapore">
+      <div class="blog-card-image">
+        <div class="blog-card-image-placeholder">Post image</div>
+      </div>
+      <div class="blog-card-content">
+        <span class="blog-card-category">Racing · Singapore</span>
+        <a href="blog-post.html" class="blog-card-title">How to Train for the Singapore Marathon: A 20-Week Breakdown</a>
+        <p class="blog-card-excerpt">SCSM-specific preparation. The December heat, race day logistics, taper strategy for tropical conditions, and the training phases that actually produce results at this event.</p>
+        <div class="blog-card-meta">
+          <span class="blog-card-date">October 2024</span>
+          <a href="blog-post.html" class="blog-card-link">Read →</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="newsletter-inner reveal">
+    <h2>Training Insights</h2>
+    <p>Occasional writing on endurance training, performance development and the Tanren coaching philosophy. No filler. Only when there is something worth saying.</p>
+    <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+      <input type="email" placeholder="your@email.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p class="newsletter-note">No spam. Unsubscribe at any time.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-wrap"><span></span><span></span><span></span></div>
+  </div>
+  <div class="footer-rule"></div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="footer-col-heading">Brand</div>
+      <span class="brand-name">Tanren Running</span>
+      <span class="brand-tagline">Forged Through Consistency</span>
+      <span class="scope">Distance Running · Multisport<br>Endurance Performance</span>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Navigation</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="coaching.html">Coaching</a>
+      <a href="philosophy.html">Philosophy</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-heading">Connect</div>
+      <a href="https://instagram.com/tanrenrunning" target="_blank">Instagram: @tanrenrunning</a>
+      <a href="#" target="_blank">Strava: Tanren Running Club</a>
+      <a href="mailto:coach@tanrenrunning.com">coach@tanrenrunning.com</a>
+      <p>Based in Singapore · Coaching Worldwide</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Tanren Running. All rights reserved.</div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  function filterPosts(category, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.blog-card').forEach(card => {
+      if (category === 'all') {
+        card.style.display = '';
+      } else {
+        const cats = card.dataset.category || '';
+        card.style.display = cats.includes(category) ? '' : 'none';
+      }
+    });
+    // Re-handle featured visibility
+    const featured = document.querySelector('.blog-card.featured');
+    if (featured && featured.style.display !== 'none') {
+      featured.style.gridColumn = '1 / -1';
+    }
+  }
+
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'Subscribed ✓';
+    btn.style.background = '#2e3338';
+    e.target.querySelector('input').disabled = true;
+  }
+</script>
+</body>
+</html>
