@@ -666,13 +666,6 @@
     margin-top: 4px;
     letter-spacing: 1px;
   }
-  .testimonials-small {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border-left: 1px solid rgba(255,255,255,0.1);
-    padding-left: 48px;
-  }
   .testimonial-small {
     padding: 32px 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -697,6 +690,42 @@
     color: rgba(255,255,255,0.75);
     margin-bottom: 16px;
   }
+
+  /* ── TESTIMONIAL CAROUSEL ── */
+  .testimonial-carousel-wrap {
+    border-left: 1px solid rgba(255,255,255,0.1);
+    padding-left: 48px;
+  }
+  .testimonial-carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .testimonial-carousel-track::-webkit-scrollbar { display: none; }
+  .testimonial-card-small {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+  }
+  .carousel-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .carousel-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--orange);
+    background: var(--orange);
+    color: var(--white);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .carousel-btn:hover { background: var(--orange-hover); border-color: var(--orange-hover); }
 
   /* ── PROCESS ── */
   .process {
@@ -1059,7 +1088,7 @@
       grid-template-columns: 1fr;
       gap: 40px;
     }
-    .testimonials-small {
+    .testimonial-carousel-wrap {
       border-left: none;
       padding-left: 0;
       border-top: 1px solid rgba(255,255,255,0.1);
@@ -1221,7 +1250,7 @@ Every Tanren programme is periodised and built specifically for you. Structured 
     <div class="diff-card reveal reveal-delay-1">
       <h3>Structure Without Overwhelm</h3>
       <p>Every session has a clear purpose. Every training block has a clear goal. You will always know what you are doing and exactly why you are doing it.<br><br>
-Beyond the aerobic base, every programme also develops speed base and running mechanics through drills — aspects most long distance runners neglect but which compound directly into race performance. </p>
+Beyond the aerobic base, every programme also develops speed base and running mechanics through drills — aspects most long distance runners neglect but which compound directly into race performance. </p>
     </div>
     <div class="diff-card reveal reveal-delay-2">
       <h3>Built for Busy People</h3>
@@ -1336,16 +1365,34 @@ Athletes who understand why they are doing each session train with more intentio
       <div class="t-name">Esther C., 40</div>
       <div class="t-result">Middle Distance — Transitioning from Marathon</div>
     </div>
-    <div class="testimonials-small reveal reveal-delay-1">
-      <div class="testimonial-small">
-        <blockquote>"Been working with coach Chuan Heng for 2 marathons, and currently training for my 3rd. I’ve improved a lot under his coaching. Achieved sub 4 for my first FM, 3:30 for my 2nd FM. Also achieved sub 20 mins for 5k.<br><br>Really appreciate how he adjusts my trainings to get quality sessions in. His strategies are solid, and he always shares useful insights and tips that actually make a difference during workouts and long runs."</blockquote>
-        <div class="t-name">Wayne L., 32</div>
-        <div class="t-result">Gold Coast Marathon — 3:30:09</div>
+
+    <div class="testimonial-carousel-wrap reveal reveal-delay-1">
+      <div class="testimonial-carousel-track" id="testimonialTrack">
+        <div class="testimonial-card-small">
+          <div class="testimonial-small" style="border-bottom:none;">
+            <blockquote>"Been working with coach Chuan Heng for 2 marathons, and currently training for my 3rd. I’ve improved a lot under his coaching. Achieved sub 4 for my first FM, 3:30 for my 2nd FM. Also achieved sub 20 mins for 5k.<br><br>Really appreciate how he adjusts my trainings to get quality sessions in. His strategies are solid, and he always shares useful insights and tips that actually make a difference during workouts and long runs."</blockquote>
+            <div class="t-name">Wayne L., 32</div>
+            <div class="t-result">Gold Coast Marathon — 3:30:09</div>
+          </div>
+        </div>
+        <div class="testimonial-card-small">
+          <div class="testimonial-small" style="border-bottom:none;">
+            <blockquote>"My Hyrox running splits were costing me at least four minutes per race. After twelve weeks of structured run training I dropped my total time by six minutes."</blockquote>
+            <div class="t-name">Jason K., 38</div>
+            <div class="t-result">Hyrox Singapore</div>
+          </div>
+        </div>
+        <div class="testimonial-card-small">
+          <div class="testimonial-small" style="border-bottom:none;">
+            <blockquote>"I'd been stuck above 20 minutes for years, no matter how hard I trained. Three months of structured work with Chuan Heng and I finally broke 20 — and it wasn't even a max effort. The pacing and speed sessions made all the difference."</blockquote>
+            <div class="t-name">Larry, 20</div>
+            <div class="t-result">Sub-20 5K — years of trying, broken in 3 months</div>
+          </div>
+        </div>
       </div>
-      <div class="testimonial-small">
-        <blockquote>"My Hyrox running splits were costing me at least four minutes per race. After twelve weeks of structured run training I dropped my total time by six minutes."</blockquote>
-        <div class="t-name">Jason K., 38</div>
-        <div class="t-result">Hyrox Singapore</div>
+      <div class="carousel-nav">
+        <button class="carousel-btn carousel-prev" aria-label="Previous testimonial">‹</button>
+        <button class="carousel-btn carousel-next" aria-label="Next testimonial">›</button>
       </div>
     </div>
   </div>
@@ -1467,6 +1514,49 @@ Athletes who understand why they are doing each session train with more intentio
     });
   }, { threshold: 0.12 });
   reveals.forEach(el => observer.observe(el));
+
+  // Testimonial carousel
+  const testimonialTrack = document.getElementById('testimonialTrack');
+  if (testimonialTrack) {
+    const carouselWrap = testimonialTrack.closest('.testimonial-carousel-wrap');
+    const cards = testimonialTrack.querySelectorAll('.testimonial-card-small');
+    let currentIndex = 0;
+    let autoplayTimer;
+    let pauseTimer;
+
+    function goToSlide(index) {
+      currentIndex = (index + cards.length) % cards.length;
+      testimonialTrack.scrollTo({ left: currentIndex * testimonialTrack.clientWidth, behavior: 'smooth' });
+    }
+    function startAutoplay() {
+      clearInterval(autoplayTimer);
+      autoplayTimer = setInterval(() => goToSlide(currentIndex + 1), 3000);
+    }
+    function stopAutoplay() {
+      clearInterval(autoplayTimer);
+    }
+    function pauseAutoplayFor(ms) {
+      stopAutoplay();
+      clearTimeout(pauseTimer);
+      pauseTimer = setTimeout(startAutoplay, ms);
+    }
+
+    carouselWrap.querySelector('.carousel-prev').addEventListener('click', () => {
+      goToSlide(currentIndex - 1);
+      pauseAutoplayFor(8000);
+    });
+    carouselWrap.querySelector('.carousel-next').addEventListener('click', () => {
+      goToSlide(currentIndex + 1);
+      pauseAutoplayFor(8000);
+    });
+    carouselWrap.addEventListener('mouseenter', stopAutoplay);
+    carouselWrap.addEventListener('mouseleave', () => {
+      clearTimeout(pauseTimer);
+      startAutoplay();
+    });
+
+    startAutoplay();
+  }
 </script>
 <a href="https://wa.me/6592717622" target="_blank" class="wa-float" aria-label="Chat on WhatsApp">
   <i class="fab fa-whatsapp"></i>
